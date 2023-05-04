@@ -13,7 +13,6 @@ import AnimeCard from "@/components/AnimeCard.vue"
   }
   }
 
-  // https://apijikan.moe/v4/search/anime?q=
 </script>
 <style>
 * {

@@ -10,7 +10,7 @@
           </div>
     </header>
     
-    <div class="cards">
+    <div class="cards" v-if="animeList.length > 0">
 
         <div class="card" v-for="anime in animeList" :key="anime.mal_id">
           
@@ -21,6 +21,9 @@
           <a class="trailer" :href="anime.trailer.url" target="_blank" v-if="anime.trailer.url">Trailer</a>
           
         </div>
+    </div>
+    <div class="not-found" v-if="animeList.length <= 0">
+      <h3 class="errors" v-if="errors">{{ errors }}</h3>
     </div>
 
   </div>
@@ -34,6 +37,7 @@ export default {
     return {
       inputText: "",
       animeList :[],
+      errors: ""
     }
   },
   methods: {
@@ -42,6 +46,10 @@ export default {
         this.animeList = axios.get(`https://api.jikan.moe/v4/anime?q=${this.inputText}`)
         .then(res => {
           this.animeList = res.data.data;
+          
+          if (this.animeList <= 0) {
+              this.errors = `'${this.inputText}' Anime Not Found :(`
+          }
           this.inputText = ""
         })
         
@@ -139,6 +147,15 @@ export default {
     font-weight: bold;
     letter-spacing: .5px;
     cursor: pointer;
+}
+.errors {
+    background-color: #42b983;
+    width: fit-content;
+    margin: 30px auto;
+    padding: 15px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 20px;
 }
 
 @media screen and (max-device-width: 400px) {
